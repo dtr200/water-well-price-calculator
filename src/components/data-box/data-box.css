@@ -1,0 +1,24 @@
+.inputbox{
+    width:fit-content;
+    position: relative;
+    padding: 10px;
+}
+
+.inputbox::before{
+    content: attr(data-min);
+    position: absolute;
+    bottom: -10px;
+    font-size:.75em;
+}
+
+.inputbox::after{
+    content: attr(data-max);
+    position: absolute;
+    right: 10px;
+    bottom: -10px;
+    font-size:.75em;
+}
+
+.inputbox__wrapper{
+    position: relative;
+}

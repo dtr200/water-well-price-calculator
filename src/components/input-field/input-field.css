@@ -1,0 +1,42 @@
+.inputbox__content{
+    position: relative;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+.inputbox__content--warning{
+    border: 1px solid rgb(238, 58, 58);
+    transition: all ease-in .5s;
+}
+
+.inputbox__field{
+    color: #242424;
+    border: none;
+    margin-bottom: 15px;
+    padding: 30px 15px 0;
+    appearance: none;
+    -moz-appearance: textfield;
+}
+
+.inputbox__field:focus {
+    outline: none;
+}
+
+.inputbox__field:focus,
+.inputbox__field:hover{
+    appearance: none;
+    -moz-appearance: textfield;
+}
+.inputbox__field::-webkit-outer-spin-button,
+.inputbox__field::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.inputbox__placeholder{
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    color: #737373;
+    font-size: .75em;
+}

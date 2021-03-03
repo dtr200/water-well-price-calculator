@@ -1,0 +1,35 @@
+.track{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.track__axis{
+    width: 100%;
+    padding: 3px;
+    background-color: #ddd;
+    border-radius: 0 0 5px 5px;
+}
+
+.track__fill{
+    width: 50%;
+    height: 100%;
+    background-color: #f26100;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 0 0 0 5px;
+}
+
+.track__circle{
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0 2px 2px rgba(36, 38, 41, .25);
+    position: absolute;
+    top: -7px;
+    left: -10px;
+    cursor: pointer;
+}
