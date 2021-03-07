@@ -1,10 +1,17 @@
-.inputbox{
-    width:fit-content;
-    position: relative;
-    padding: 10px;
+:root{
+    --inputbox-padding: 10px;
 }
 
-.inputbox::before{
+
+.inputbox{
+    /* width:fit-content; */
+    width:300px;
+    position: relative;
+    padding: var(--inputbox-padding);
+    margin-bottom: 15px;
+}
+
+/* .inputbox::before{
     content: attr(data-min);
     position: absolute;
     bottom: -10px;
@@ -17,8 +24,16 @@
     right: 10px;
     bottom: -10px;
     font-size:.75em;
-}
+} */
 
 .inputbox__wrapper{
     position: relative;
+}
+.inputbox__designations{
+    display: flex;
+    justify-content: space-between;
+    font-size:.75em;
+    position: absolute;
+    bottom: -10px;
+    width: calc(100% - var(--inputbox-padding)*2);
 }

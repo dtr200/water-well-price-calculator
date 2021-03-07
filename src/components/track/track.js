@@ -14,11 +14,11 @@ export default class Track extends React.Component{
         circleMoving: false
     }
 
-    componentDidMount(){
+    componentDidMount(){        
         this.setDefaultOffset();
     }
 
-    componentDidUpdate(prevProps){
+    componentDidUpdate(prevProps){           
         const { data, region } = this.props;
 
         if(data != prevProps.data && region != prevProps.region)
@@ -28,7 +28,7 @@ export default class Track extends React.Component{
             this.runInputData();
     }
 
-    runInputData(){
+    runInputData(){        
         const { min, data, setData } = this.props;
         const { dataPercentRatio } = this.state;
 
@@ -48,16 +48,16 @@ export default class Track extends React.Component{
         this.setState({ 
             circleOffset: this.calcDefaultRatio(),
             dataPercentRatio
-        });     
+        });
     }
 
-    calcDefaultRatio(){
+    calcDefaultRatio(){        
         const { data, min, max } = this.props;
 
         return (data - min)/(max - min) * 100;
     }
 
-    downHandler = (e) => {
+    downHandler = (e) => {        
         const inputWidth = e.target.parentNode.clientWidth;
 
         const widthStepRatio = inputWidth/100;
@@ -82,9 +82,11 @@ export default class Track extends React.Component{
         const offsetPercent = offsetPx/widthStepRatio;
         this.tempOffset += offsetPercent;
         
-        // рассчитываю минимальный шаг смещения ползунка в %. При smooth делю 1px на соотношение ширины input в px к 100% ширине
-        const step = rawStep === "smooth" ? 1/widthStepRatio : 100/rawStep
+        /* Рассчитываю минимальный шаг смещения ползунка в %. 
+        При smooth делю 1px на соотношение ширины input в px к 100% ширине */
         
+        const step = rawStep === "smooth" ? 1/widthStepRatio : 100/rawStep
+
         if(this.tempOffset > 0 && this.tempOffset < step || 
            this.tempOffset < 0 && this.tempOffset > -step){
             this.setState(({ start }) => {
@@ -94,7 +96,7 @@ export default class Track extends React.Component{
             })
         }
         else{
-            this.setState(({ circleOffset, start }) => {
+            this.setState(({ circleOffset, start }) => {                
                 let result;
                 if(this.tempOffset > 0){
                     result = rawStep === 'smooth' ? circleOffset + offsetPercent :
@@ -108,7 +110,7 @@ export default class Track extends React.Component{
                 const offset = result >= 100 ? 100 :
                                result <= 0 ? 0 : 
                                result
-
+                               
                 const data = Math.floor(offset*dataPercentRatio) + min;
                 setData(data);
                 return {
@@ -128,13 +130,13 @@ export default class Track extends React.Component{
     }
 
     render(){
+        
         const { circleOffset } = this.state;
 
         const offset = {
             left: `calc(${circleOffset}% - ${this.cssCircleOffset}px)`
         }
         const fillWidth = { width: `${circleOffset}%` }
-
         return (
             <div className="inputbox__track track">
                 <div className="track__axis">

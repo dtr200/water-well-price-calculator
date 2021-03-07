@@ -1,326 +1,158 @@
 import React from 'react';
 import Regions from '../regions';
 import Databox from '../data-box';
+
+import DataService from '../../services/data-service';
 import './app.css';
 
-export default class App extends React.Component{
+export default class App extends React.Component {
 
-    places = [
-        { name: "Балашихинский", depth: 68, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2800 } 
-        ] },
-        { name: "Волоколамский", depth: 63, min: 30, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Воскресенский", depth: 65, min: 30, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Домодедовский", depth: 48, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Дмитровский", depth: 152, min: 40, max: 250, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2800 } 
-        ] },
-        { name: "Егорьевский", depth: 65, min: 30, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2800 } 
-        ] },
-        { name: "Зарайский", depth: 65, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Истринский", depth: 92, min: 40, max: 200, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2800 } 
-        ] },
-        { name: "Каширский", depth: 70, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Клинский", depth: 115, min: 40, max: 250, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Коломенский", depth: 47, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Красногорский", depth: 78, min: 30, max: 200, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Ленинский", depth: 71, min: 20, max: 180, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Луховицкий", depth: 60, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Люберецкий", depth: 51, min: 20, max: 180, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Лотошинский", depth: 60, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Мытищинский", depth: 78, min: 20, max: 180, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2800 } 
-        ] },
-        { name: "Можайский", depth: 60, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3100 } 
-        ] },
-        { name: "Наро-фоминский", depth: 60, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Ногинский", depth: 45, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Одинцовский", depth: 85, min: 20, max: 180, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Озерский", depth: 42, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Орехово-Зуевский", depth: 58, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Павлово-Посадский", depth: 42, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Подольский", depth: 48, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Пушкинский", depth: 90, min: 20, max: 200, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Раменский", depth: 65, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Рузский", depth: 62, min: 20, max: 180, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Сергиево-Посадский", depth: 160, min: 40, max: 250, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3100 } 
-        ] },
-        { name: "Серебряно-Прудский", depth: 65, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2750 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 3000 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3300 } 
-        ] },
-        { name: "Серпуховский", depth: 55, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Солнечногорский", depth: 120, min: 30, max: 200, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Ступинский", depth: 44, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: "-" },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Талдомский", depth: 95, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2750 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 3000 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3200 } 
-        ] },
-        { name: "Химкинский", depth: 72, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2450 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Чеховский", depth: 42, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2250 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2500 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Шатурский", depth: 78, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2650 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2900 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3100 } 
-        ] },
-        { name: "Шаховской", depth: 85, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Щелковский", depth: 61, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2300 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2700 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 2900 } 
-        ] },
-        { name: "Калужская обл. Боровский район", depth: 55, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Калужская обл. Жуковский район", depth: 47, min: 20, max: 150, prices: [
-            { pipe: "НПВХ", price: 2400 },
-            { pipe: "Сталь 133 мм", price: 2350 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2600 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3000 } 
-        ] },
-        { name: "Тульская обл. Заокский район", depth: 61, min: 20, max: 200, prices: [
-            { pipe: "НПВХ", price: "-" },
-            { pipe: "Сталь 133 мм", price: 2550 },
-            { pipe: "Сталь 133 мм + ПНД 117 мм", price: 2800 },
-            { pipe: "Сталь 152 мм + ПНД 125 мм", price: "нет на складе" },
-            { pipe: "Сталь 159 мм + ПНД 125 мм", price: 3100 } 
-        ] }
-    ]
+    /* Средняя и большая глубина */
 
-    intallation = [
-        'Эконом с адаптером', 
-        'Эконом с кессоном', 
-        'Стандарт с адаптером', 
-        'Стандарт с кессоном', 
-        'Премиум'
-    ]
+    shallow = 50;
+    mid = 100;
+
+    /* Порог смены цены за метр обустройства */
+
+    deepLimit = 80;
+
+    /* Добавочная цена обустройства за метр глубины (добавлять к базовой) */
+
+    oneMeterShallowPrice = 150;
+    oneMeterDeepPrice = 260;
+
+    /* Дополнительная цена за обустройство глубокой скважины */
+
+    extraPrice = 10000;
 
     state = {
         currentRegion: "Чеховский",
         currentDepth: 42,
         minDepth: 20,
-        maxDepth: 150
+        maxDepth: 150,
+        currentPipe: "Сталь 133 мм + ПНД 117 мм",
+        currentPipeCost: null,
+        currentInstallation: null,
+        currentInstallationCost: null,        
+        finalCost: null,
+        allowedInstallationTypes: null
+    }
+
+    dataService = new DataService();
+
+    componentDidMount(){
+        const { currentRegion, currentPipe, allowedInstallationTypes } = this.state;
+        const pipes = this.dataService.getPrices(currentRegion).prices;
+
+        const pipePosition = pipes.findIndex(item => item.type === currentPipe);
+        const pipeCost = pipes[pipePosition].price;
+
+        /* Получаю доступные типы обустройства при дефолтной глубине районе */
+
+        const instTypes = this.setInstallationTypes();
+        console.log(instTypes)
+        /* Получаю цену обустройства при дефолтной глубине: 
+        базовая цена + (дефолтная глубина - min) * oneMeterShallowPrice */
+        let price = null;
+
+
+
+        /* ПРВОЕРИТЬ, allowed не доступен на mount !!!!!!!!!!!! */
+        if(allowedInstallationTypes){
+            console.log(1)
+            price = this.setInstallationPrice();
+            console.log(price)
+        }
+
+        this.setState({
+            currentPipeCost: pipeCost,
+            allowedInstallationTypes: instTypes,
+            currentInstallation: this.setDefaultInstallation(),
+            currentInstallationCost: price
+        });
+    }
+
+    /* Считаю дефолтный тип обустройства на основании глубины района */
+
+    setDefaultInstallation(){
+        const { currentDepth } = this.state;
+
+        return currentDepth < this.shallow ? 'Эконом с адаптером' : 
+               currentDepth > this.shallow && currentDepth < this.mid ? 'Эконом с кессоном' : 
+               'Стандарт с кессоном'
+    }
+
+    /* Считаю цену обустройства (базовая + дополнительная за метр)*/
+
+    setInstallationPrice(){
+        const { currentDepth, allowedInstallationTypes, 
+                currentInstallation, minDepth } = this.state;
+
+        const basePrice = allowedInstallationTypes.filter(item => 
+                                item.type === currentInstallation)[0].cost;
+
+        const additionalDepth = currentDepth - minDepth;
+        const additionalPrice = currentDepth < this.deepLimit ? additionalDepth * this.oneMeterShallowPrice :
+                                additionalDepth * this.oneMeterDeepPrice
+
+        return currentDepth < this.deepLimit ? basePrice + additionalPrice : 
+               basePrice + additionalPrice + this.extraPrice;
+    }
+
+    /* Обновляю доступные варианты обустройства и текущий вариант в зависимости от глубины, а также цену текущего варианта */
+
+    componentDidUpdate(prevProps, prevState){
+        const { allowedInstallationTypes } = this.state;
+
+        const allowedInstallations = this.setInstallationTypes();
+        let price;
+
+        if(allowedInstallationTypes){
+            price = this.setInstallationPrice();
+        }
+
+        if(prevState.currentInstallationCost !== price){
+            this.setState({ currentInstallationCost: price });
+        }        
+        
+        if(JSON.stringify(prevState.allowedInstallationTypes) !== JSON.stringify(allowedInstallations)){
+
+            this.setState({ 
+                allowedInstallationTypes: allowedInstallations,
+                currentInstallation: this.setDefaultInstallation(),
+                currentInstallationCost: price
+            });
+        }
+    }
+
+    /* Рассчитываю доступные варианты обустройства на основе глубины */
+
+    setInstallationTypes(){
+        const { currentDepth: depth, currentRegion } = this.state;
+        const installations = this.dataService.getInstallations(currentRegion).prices;
+
+        const allowedInstallations = installations.filter(item => {
+
+            if(depth <= this.shallow){
+                return item.type
+            }
+            else if(this.shallow < depth && depth < this.mid){
+                return item.type !== 'Эконом с адаптером' && item.type!== 'Стандарт с адаптером'
+            }
+            else{
+                return item.type !== 'Эконом с адаптером' && 
+                       item.type !== 'Эконом с кессоном' && 
+                       item.type !== 'Стандарт с адаптером'
+            }
+
+        })
+        return allowedInstallations; 
     }
 
     setRegionData = (region) => {
-        const regionData = this.places.find(item => item.name === region);
+        const regionData = this.dataService.getDepth(region);
 
-        this.setState({ 
+        this.setState({
             currentRegion: region,
             currentDepth: regionData.depth,
             minDepth: regionData.min,
@@ -328,34 +160,101 @@ export default class App extends React.Component{
         })
     }
 
-    setData = (value) => {
-       this.setState({ currentDepth: value })
+    setDepth = (value) => {
+        this.setState({ currentDepth: value })
     }
 
-    render(){
-        const { currentRegion, currentDepth,
-                minDepth, maxDepth } = this.state;
+    setPipe = (value) => {
+        const { currentRegion } = this.state;
+        const pipes = this.dataService.getPrices(currentRegion).prices;
+        const step = 100/(pipes.length - 1);
+        const pipePosition = value/step;
+
+        const pipeType = pipes[pipePosition].type;
+        const pipeCost = pipes[pipePosition].price;
+
+        this.setState({ 
+            currentPipe: pipeType,
+            currentPipeCost: pipeCost
+        });
+    }
+
+    setInstallation = (value) => {
+        const { currentRegion, allowedInstallationTypes } = this.state;
+
+        console.log(value)
+        //const allowedInstallationTypes = this.dataService.getInstallations(currentRegion);
+        const step = 100/(allowedInstallationTypes.length - 1);
+        const instPosition = value/step;
+        console.log(value, step)
+        const instType = allowedInstallationTypes[instPosition];
+        const instCost = 0
+
+        /* this.setState({ 
+            /* currentInstallation: instType, */
+            //currentInstallationCost: instCost
+        //}); */
+    }
+
+    getItemData(itemList, currentData){
+        const position = itemList.findIndex(item => item.type === currentData);
+        const step = 100/(itemList.length - 1);
+        return position * step;
+    }
+
+    render() {
+        const { currentRegion, currentDepth, minDepth, 
+                maxDepth, currentPipe, currentPipeCost,
+                allowedInstallationTypes, currentInstallation,
+                currentInstallationCost } = this.state;
+
+        const installations = this.dataService.getInstallations(currentRegion).prices;
+        const pipes = this.dataService.getPrices(currentRegion).prices;
+
+        const pipeData = this.getItemData(pipes, currentPipe);
+        const pipeSteps = pipes.length - 1;
+        const instData = this.getItemData(installations, currentInstallation);
+        const instSteps = allowedInstallationTypes ? allowedInstallationTypes.length - 1 : 0;
+
+        console.log(this.state.currentInstallationCost )
 
         return (
             <div className="calculator-app">
-                <Regions places={this.places}
-                         onSelect={this.setRegionData}
+                <Regions onSelect={this.setRegionData}
                          selected={currentRegion} />
 
                 <Databox name="Глубина, м"
                          data={currentDepth}
                          min={minDepth}
                          max={maxDepth}
-                         setData={this.setData}
+                         signs={true}
+                         setData={this.setDepth}
                          region={currentRegion}
-                         step={'smooth'} /> 
-                <Databox name="Уровень обустройства"
-                         min={minDepth}
-                         max={maxDepth}
-                         setData={this.setData}
-                         region={currentRegion}
-                         step={5} />        
-            </div>            
+                         step={'smooth'}
+                         display={'input'} />
+
+                <Databox name="Труба"
+                         data={pipeData}
+                         min={0}
+                         max={100}
+                         setData={this.setPipe}
+                         step={pipeSteps}
+                         display={'board'}
+                         text={currentPipe}
+                         cost={currentPipeCost} />
+
+                <Databox name="Тип обустройства скважины"
+                         data={instData}
+                         min={0}
+                         max={100}
+                         setData={this.setInstallation}
+                         step={instSteps}
+                         display={'board'}
+                         setInstallation={this.setInstallation}
+                         installTypes={installations}
+                         text={currentInstallation}
+                         cost={currentInstallationCost} />
+            </div>
         )
     }
 }

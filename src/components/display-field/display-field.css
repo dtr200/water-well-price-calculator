@@ -1,0 +1,17 @@
+.inputbox__title{
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    color: #737373;
+    font-size: .75em;
+}
+
+.inputbox__field--display{
+    display: flex;
+    justify-content: space-between;
+}
+
+.inputbox__type,
+.inputbox__cost{
+    font-size: .8em;
+}
