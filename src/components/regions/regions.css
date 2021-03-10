@@ -1,0 +1,22 @@
+.places__wrapper{
+    position: relative;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+.places{
+    border: 1px solid silver;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+}
+
+.places__down-arrow{
+    width: 10px;
+    transform: rotate(90deg);
+    position: absolute;
+    right: 25px;
+    top: 30%;
+}

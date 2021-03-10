@@ -15,3 +15,22 @@
 .inputbox__cost{
     font-size: .8em;
 }
+
+.inputbox__content--result{
+    padding: 15px 10px;
+    border: none;
+}
+
+.inputbox__title--result{
+    width: 100%;
+    text-align: center;
+    font-size: 1em;
+}
+
+.inputbox__cost--result{
+    display: block;
+    width: 100%;
+    padding: 30px 0 0;
+    text-align: center;
+    font-size: 1.2em;
+}

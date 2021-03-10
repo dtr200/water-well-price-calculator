@@ -112,6 +112,7 @@ export default class Track extends React.Component{
                                result
                                
                 const data = Math.floor(offset*dataPercentRatio) + min;
+                console.log("TRACK::", "data",data)
                 setData(data);
                 return {
                     circleOffset: offset,

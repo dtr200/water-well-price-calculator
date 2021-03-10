@@ -2,3 +2,10 @@
     font: 1em sans-serif;
     box-sizing: border-box;
 }
+
+.calculator-app{
+    max-width: 600px;
+    border: 1px solid silver;
+    border-radius: 5px;
+    padding: 15px 10px;
+}
