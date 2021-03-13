@@ -31,12 +31,13 @@ export default class ResultBox extends React.Component{
 
         const { price, region } = this.props;
 
-        const title = `Цена бурения под ключ в ${this.getRegionForm(region)}`
+        const title = `Цена бурения под ключ в ${this.getRegionForm(region)}`;
+        const result = price ? `${price} руб.` : 'выберите другой вариант';
 
         return (
             <div className="inputbox__content inputbox__content--result">
                 <h2 className="inputbox__result-header">{title}</h2>
-                <span className="inputbox__cost inputbox__cost--result">{`${price} руб.`}</span>
+                <span className="inputbox__cost inputbox__cost--result">{result}</span>
             </div>
         )
     }

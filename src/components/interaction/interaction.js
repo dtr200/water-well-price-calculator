@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Databox from '../data-box';
+import { DepthInput,
+         PipeInput,
+         InstallationInput } from '../input-components';
 
 import './interaction.css';
 
@@ -36,7 +38,7 @@ export default class Interaction extends Component{
     dataService = new DataService();
 
     componentDidMount(){
-        const { region, pipe, setInstallation } = this.props;
+        const { region, pipe, setInstallation, setFinalPrice } = this.props;
         const pipes = this.dataService.getPrices(region).prices;
 
         const pipePosition = pipes.findIndex(item => item.type === pipe);
@@ -54,6 +56,7 @@ export default class Interaction extends Component{
         }
         
         setInstallation(this.setDefaultInstallation());
+        setFinalPrice(pipeCost, price);
 
         this.setState({
             currentPipeCost: pipeCost,
@@ -89,7 +92,7 @@ export default class Interaction extends Component{
     setDefaultInstallation(){
         const { depth } = this.props;
 
-        return depth < this.shallow ? 'Эконом с адаптером' : 
+        return depth <= this.shallow ? 'Эконом с адаптером' : 
                depth > this.shallow && depth < this.mid ? 'Эконом с кессоном' : 
                'Стандарт с кессоном'
     }
@@ -102,9 +105,9 @@ export default class Interaction extends Component{
 
         const list = allowedList || allowedInstallationTypes;
 
-        const basePrice = list.filter(item => 
-                                item.type === installation)[0].cost;
+        const basePriceData = list.filter(item => item.type === installation);
 
+        const basePrice = basePriceData[0].cost;
         const additionalDepth = depth - minDepth;
         const additionalPrice = depth < this.deepLimit ? additionalDepth * this.oneMeterShallowPrice :
                                 additionalDepth * this.oneMeterDeepPrice
@@ -146,8 +149,8 @@ export default class Interaction extends Component{
     /* Обновляю доступные варианты обустройства и текущий вариант в зависимости от глубины, а также цену текущего варианта */
 
     componentDidUpdate(prevProps, prevState){
-        const { setInstallation, installation, depth } = this.props;
-        const { allowedInstallationTypes } = this.state;
+        const { setInstallation, setFinalPrice } = this.props;
+        const { allowedInstallationTypes, currentPipeCost } = this.state;
 
         const allowedInstallations = this.setInstallationTypes();
         let price;
@@ -157,16 +160,15 @@ export default class Interaction extends Component{
         }
 
         if(prevState.currentInstallationCost !== price){
+            setFinalPrice(currentPipeCost, price);
             this.setState({ currentInstallationCost: price });
         }        
         
         if(JSON.stringify(prevState.allowedInstallationTypes) !== JSON.stringify(allowedInstallations)){
+            /* installation !== 'Эконом с адаптером' && depth < this.shallow ||
+            installation !== 'Эконом с кессоном' && depth > this.shallow && depth < this.mid ?  */
 
-            installation !== 'Эконом с адаптером' && depth < this.shallow ||
-            installation !== 'Эконом с кессоном' && depth > this.shallow && depth < this.mid ? 
-            setInstallation(installation) : setInstallation(this.setDefaultInstallation());
- 
-            //setInstallation(this.setDefaultInstallation());
+            setInstallation(this.setDefaultInstallation());
 
             this.setState({ 
                 allowedInstallationTypes: allowedInstallations,
@@ -199,36 +201,24 @@ export default class Interaction extends Component{
 
         return (
             <div className="inputbox__interaction">
-                <Databox name="Глубина, м"
-                         data={depth}
-                         min={minDepth}
-                         max={maxDepth}
-                         signs={true}
-                         setData={setDepth}
-                         region={region}
-                         step={'smooth'}
-                         display={'input'} />
+                <DepthInput data={depth}
+                            min={minDepth}
+                            max={maxDepth}
+                            setData={setDepth}
+                            region={region}/>
 
-                <Databox name="Труба"
-                         data={pipeData}
-                         min={0}
-                         max={100}
-                         setData={this.setPipeData}
-                         step={pipeSteps}
-                         display={'board'}
-                         text={pipe}
-                         cost={currentPipeCost} />
+                <PipeInput  data={pipeData}
+                            setData={this.setPipeData}
+                            step={pipeSteps}
+                            text={pipe}
+                            cost={currentPipeCost}/>
 
-                <Databox name="Тип обустройства скважины"
-                         data={instData}
-                         min={0}
-                         max={100}
-                         setData={this.setInstallationData}
-                         step={instSteps}
-                         display={'board'}
-                         installTypes={installations}
-                         text={installation}
-                         cost={currentInstallationCost} />
+               <InstallationInput data={instData}
+                                  setData={this.setInstallationData}
+                                  step={instSteps}
+                                  installTypes={installations}
+                                  text={installation}
+                                  cost={currentInstallationCost}/>
             </div>
         )
     }

@@ -15,7 +15,7 @@ export default class App extends React.Component {
         minDepth: 20,
         maxDepth: 150,
         currentPipe: "Сталь 133 мм + ПНД 117 мм",
-        drillingCost: null,
+        finalPrice: null,
         currentInstallation: 'Эконом с адаптером'
     }
 
@@ -44,13 +44,18 @@ export default class App extends React.Component {
 
     setPipe = (value) => {
         this.setState({ currentPipe: value });
-    }    
+    }
+
+    setFinalPrice = (pipePrice, installationPrice) => {
+        const { currentDepth } = this.state;
+
+        const price = pipePrice ? pipePrice * currentDepth + installationPrice : 0;
+        this.setState({ finalPrice: price });
+    }
 
     render() {
-        const { currentRegion, currentDepth, minDepth, 
-                maxDepth, currentPipe, currentInstallation, finalCost } = this.state;        
-
-        const price = 0
+        const { currentRegion, currentDepth, minDepth, maxDepth, 
+                currentPipe, currentInstallation, finalPrice } = this.state;
 
         return (
             <div className="calculator-app">
@@ -65,10 +70,11 @@ export default class App extends React.Component {
                              installation={currentInstallation}
                              setInstallation={this.setInstallation}
                              setDepth={this.setDepth}
-                             setPipe={this.setPipe}/>          
+                             setPipe={this.setPipe}
+                             setFinalPrice={this.setFinalPrice}/>          
 
                 <ResultBox region={currentRegion}
-                           price={price} />
+                           price={finalPrice} />
                 <CallBox />
             </div>
         )
