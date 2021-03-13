@@ -1,10 +1,7 @@
 import React from "react";
 import ErrorBoundry from '../error-boundry';
-import DataService from '../../services/data-service';
 import "./regions.css";
 export default class Regions extends React.Component{
-
-    dataService = new DataService();
 
     renderItem(array){
         return array.map(item => 
@@ -18,8 +15,8 @@ export default class Regions extends React.Component{
 
     render(){
 
-        const { places, selected } = this.props;
-        const regions = this.renderItem(this.dataService.getRegions());
+        const { selected, getRegions } = this.props;
+        const regions = this.renderItem(getRegions());
 
         return (
             <ErrorBoundry>

@@ -5,8 +5,6 @@ import { DepthInput,
 
 import './interaction.css';
 
-import DataService from '../../services/data-service';
-
 export default class Interaction extends Component{
 
     /* Средняя и большая глубина */
@@ -35,11 +33,11 @@ export default class Interaction extends Component{
         usersInstallation: null
     }
 
-    dataService = new DataService();
-
     componentDidMount(){
-        const { region, pipe, setInstallation, setFinalPrice } = this.props;
-        const pipes = this.dataService.getPrices(region).prices;
+        const { region, pipe, setInstallation, 
+                setFinalPrice, getPrices } = this.props;
+
+        const pipes = getPrices(region).prices;
 
         const pipePosition = pipes.findIndex(item => item.type === pipe);
         const pipeCost = pipes[pipePosition].price;
@@ -66,8 +64,9 @@ export default class Interaction extends Component{
     }
 
     setInstallationTypes(){
-        const { depth, region } = this.props;
-        const installations = this.dataService.getInstallations(region).prices;
+        const { depth, region, getInstallations } = this.props;
+
+        const installations = getInstallations(region).prices;
 
         const allowedInstallations = installations.filter(item => {
 
@@ -132,9 +131,9 @@ export default class Interaction extends Component{
     }
 
     setPipeData = (value) => {
-        const { region, setPipe } = this.props;
+        const { region, setPipe, getPrices } = this.props;
 
-        const pipes = this.dataService.getPrices(region).prices;
+        const pipes = getPrices(region).prices;
         const step = 100/(pipes.length - 1);
         const pipePosition = value/step;
 
@@ -185,13 +184,14 @@ export default class Interaction extends Component{
 
     render(){
         const { depth, minDepth, maxDepth, region,
-                pipe, installation, setDepth } = this.props;
+                pipe, installation, setDepth, 
+                getPrices, getInstallations } = this.props;
 
         const { allowedInstallationTypes, currentPipeCost,
                 currentInstallationCost } = this.state;
 
-        const installations = this.dataService.getInstallations(region).prices;
-        const pipes = this.dataService.getPrices(region).prices;
+        const installations = getInstallations(region).prices;
+        const pipes = getPrices(region).prices;
 
         const pipeData = this.getItemData(pipes, pipe);
         const pipeSteps = pipes.length - 1;

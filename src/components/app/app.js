@@ -59,23 +59,26 @@ export default class App extends React.Component {
 
         return (
             <div className="calculator-app">
-                <Regions onSelect={this.setRegionData}
-                         selected={currentRegion} />
+                    <Regions onSelect={this.setRegionData}
+                             selected={currentRegion}
+                             getRegions={this.dataService.getRegions}/>
 
-                <Interaction depth={currentDepth}
-                             minDepth={minDepth}
-                             maxDepth={maxDepth}
-                             region={currentRegion}
-                             pipe={currentPipe}
-                             installation={currentInstallation}
-                             setInstallation={this.setInstallation}
-                             setDepth={this.setDepth}
-                             setPipe={this.setPipe}
-                             setFinalPrice={this.setFinalPrice}/>          
+                    <Interaction depth={currentDepth}
+                                 minDepth={minDepth}
+                                 maxDepth={maxDepth}
+                                 region={currentRegion}
+                                 pipe={currentPipe}
+                                 installation={currentInstallation}
+                                 setInstallation={this.setInstallation}
+                                 setDepth={this.setDepth}
+                                 setPipe={this.setPipe}
+                                 setFinalPrice={this.setFinalPrice}
+                                 getInstallations={this.dataService.getInstallations}
+                                 getPrices={this.dataService.getPrices}/>          
 
-                <ResultBox region={currentRegion}
-                           price={finalPrice} />
-                <CallBox />
+                    <ResultBox region={currentRegion}
+                               price={finalPrice} />
+                    <CallBox />
             </div>
         )
     }

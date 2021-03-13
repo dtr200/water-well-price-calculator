@@ -377,19 +377,19 @@ export default class DataService{
         }
     })    
 
-    getRegions(){
+    getRegions = () => {
         return this.prices.map(item => item.name);
     }
 
-    getDepth(region){
+    getDepth = (region) => {
         return this.depths.find(item => item.name === region);
     }
 
-    getPrices(region){
+    getPrices = (region) => {
         return this.prices.find(item => item.name === region);
     }
 
-    getInstallations(region){
+    getInstallations = (region) => {
         return this.installations.find(item => item.name === region);
     }
 }
